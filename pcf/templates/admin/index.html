@@ -1,0 +1,17 @@
+{% extends 'admin/master.html' %} 
+{% block body %} 
+{{ super() }}
+<div class="row-fluid">
+    <div>
+        <p class="lead">
+            後台管理
+        </p>
+        <p>
+            Project Control File
+            <br/>
+        </p>
+    </div>
+    <a class="btn btn-primary" href="{{ url_for('pcf.index') }}">
+        <i class="icon-arrow-left icon-white"></i> 回到首頁</a>
+</div>
+{% endblock body %}
