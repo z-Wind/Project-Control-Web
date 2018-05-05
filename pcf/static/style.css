@@ -1,0 +1,48 @@
+body {
+    /* 避免被導覽列蓋住 */
+    padding-top: 65px;
+    background-color: #AAAAAA;
+}
+
+td,
+th {
+    min-width: 90px;
+    text-align: center;
+}
+
+/* 定義 div table */
+
+.flexbox-table {}
+
+.flexbox-table .thead {}
+
+.flexbox-table .tbody {}
+
+.flexbox-table .tr {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-around;
+    width: 100%;
+}
+
+.flexbox-table .tbody .tr:hover {
+    background-color: #343a40;
+}
+
+.flexbox-table .th {
+    font-weight: bold;
+}
+
+.flexbox-table .th,
+.flexbox-table .td {
+    flex: 2 0 0;
+    text-align: center;
+    width: 100%;
+    border: 1px solid #32383e;
+}
+
+.flexbox-form {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: flex-start;
+}
