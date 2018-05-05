@@ -1,17 +1,39 @@
-{% extends 'admin/master.html' %} 
-{% block body %} 
+{% extends 'admin/master.html' %}
+{% block body %}
 {{ super() }}
 <div class="row-fluid">
+
     <div>
+        {% if current_user.is_authenticated %}
         <p class="lead">
             後台管理
         </p>
         <p>
-            Project Control File
-            <br/>
+            Project Control File<br/>
+            {{ current_user }}
         </p>
+        {% else %}
+        <form method="POST" action="">
+            {{ form.hidden_tag() if form.hidden_tag }}
+            {% for f in form if f.type != 'CSRFTokenField' %}
+            <div>
+            {{ f.label }}
+            {{ f }}
+            {% if f.errors %}
+            <ul>
+                {% for e in f.errors %}
+                <li>{{ e }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+            </div>
+            {% endfor %}
+            <button class="btn" type="submit">Submit</button>
+        </form>
+        {{ link | safe }}
+        {% endif %}
     </div>
-    <a class="btn btn-primary" href="{{ url_for('pcf.index') }}">
-        <i class="icon-arrow-left icon-white"></i> 回到首頁</a>
+
+    <a class="btn btn-primary" href="/"><i class="icon-arrow-left icon-white"></i> 回到首頁</a>
 </div>
 {% endblock body %}

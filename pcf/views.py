@@ -4,12 +4,16 @@ views.py
 from flask import render_template, Blueprint
 from flask_admin.contrib.sqla import ModelView
 from flask_admin.form import SecureForm
+import flask_login
+from wtforms import PasswordField
+from werkzeug.security import generate_password_hash
 
 from .main import app, db
 from . import models
 from .adminView import admin
 
 pcf = Blueprint('pcf', __name__)
+
 
 # 定義一基本的設定，可適用於其他的 modelview
 class BaseModelView(ModelView):
@@ -27,6 +31,9 @@ class BaseModelView(ModelView):
     column_display_all_relations = True
     # 一頁顯示的個數
     page_size = 50
+
+    def is_accessible(self):
+        return flask_login.current_user.is_authenticated
 
 
 class ModelsView(BaseModelView):
@@ -125,6 +132,24 @@ class OwnersView(BaseModelView):
 
 
 admin.add_view(OwnersView(db.session))
+
+
+class UsersView(BaseModelView):
+    # 想顯示的資料
+    column_list = ('name', 'userName', 'email')
+    # 另外新建表格欄位，以免密碼可見
+    form_extra_fields = {'password': PasswordField('Password')}
+
+    def __init__(self, session, **kwargs):
+        super().__init__(models.Users, session, **kwargs)
+
+    # 變更時，重新加密密碼
+    def on_model_change(self, form, User, is_created):
+        if form.password.data is not None:
+            User.password = generate_password_hash(form.password.data)
+
+
+admin.add_view(UsersView(db.session))
 
 
 @pcf.route('/', methods=["GET"])

@@ -178,3 +178,31 @@ class Histories(db.Model):
     def __repr__(self):
         return '<Histories {} {} {}>'.format(self.date, self.PCBAs,
                                              self.remark)
+
+
+# Create user model.
+class Users(db.Model):
+    # 若不寫則看 class name
+    __tablename__ = 'users'
+    # 設定 primary_key
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(10))
+    userName = db.Column(db.String(80), unique=True)
+    email = db.Column(db.String(120))
+    password = db.Column(db.String(64))
+
+    # Flask-Login integration
+    def is_authenticated(self):
+        return True
+
+    def is_active(self):
+        return True
+
+    def is_anonymous(self):
+        return False
+
+    def get_id(self):
+        return self.id
+
+    def __repr__(self):
+        return '<Users {} {}>'.format(self.name, self.userName)
