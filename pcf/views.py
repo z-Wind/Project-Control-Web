@@ -11,6 +11,7 @@ from werkzeug.security import generate_password_hash
 from .main import app, db
 from . import models
 from .adminView import admin
+from .tools import *
 
 pcf = Blueprint('pcf', __name__)
 
@@ -154,4 +155,16 @@ admin.add_view(UsersView(db.session))
 
 @pcf.route('/', methods=["GET"])
 def index():
-    return render_template('index.html', title="總覽")
+    user = flask_login.current_user
+    query = db.session.query(models.Models, models.ProductIDs, models.Owners) \
+                .filter(models.Owners.name==user.name) \
+                .filter(models.Models.id==models.Owners.id) \
+                .outerjoin(models.ProductIDs, models.Models.id==models.ProductIDs.model_id) \
+                .with_labels()
+    df = sqltoDF(query)
+
+    df = df[['models_name', 'models_JIRA', 'models_stage', 'models_PM', 'models_APM', 'models_projectCode', 'models_modelNameCode', 'models_remark',
+             'owners_name',
+             'productIDs_name', 'productIDs_customer', 'productIDs_customerModelName']]
+
+    return render_template('index.html', df=df, title="總覽")

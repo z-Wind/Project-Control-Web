@@ -18,6 +18,24 @@
                 <div class='th' style="flex: 4;">Remark</div>
             </div>
         </div>
+        {% for index, value in df.iterrows() %}                
+        <div class='tbody'>
+            <div class='tr'>
+                <div class='td' style="flex: 2;">{{ value['models_JIRA'] }}</div>
+                <div class='td' style="flex: 2;">{{ value['models_name'] }}</div>
+                <div class='td' style="flex: 2;">{{ value['productIDs_customerModelName'] }}</div>
+                <div class='td' style="flex: 2;">{{ value['productIDs_name'] }}</div>
+                <div class='td' style="flex: 1;">{{ value['models_projectCode'] }}</div>
+                <div class='td' style="flex: 1;">{{ value['models_stage'] }}</div>
+                <div class='td' style="flex: 1;">{{ value['owners_name'] }}</div>
+                <div class='td' style="flex: 1;">{{ value['models_PM'] }}</div>
+                <div class='td' style="flex: 1;">{{ value['models_APM'] }}</div>
+                <div class='td' style="flex: 1;">{{ value['productIDs_customer'] }}</div>
+                <div class='td' style="flex: 1;">{{ value['models_modelNameCode'] }}</div>
+                <div class='td' style="flex: 4;">{{ value['models_remark'] }}</div>
+            </div>
+        </div>
+        {% endfor %}
     </div>
 </div>
 {% endblock %}
