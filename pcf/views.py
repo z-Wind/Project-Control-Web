@@ -1,8 +1,9 @@
 '''
-view.py
+views.py
 '''
 from flask import render_template, Blueprint
 from .main import app
+from . import models
 
 pcf = Blueprint('pcf', __name__)
 

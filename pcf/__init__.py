@@ -1,4 +1,4 @@
 '''
 __init__.py
 '''
-from .main import app
+from .main import app, db

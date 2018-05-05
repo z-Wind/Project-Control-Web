@@ -2,6 +2,7 @@
 main.py
 '''
 from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
 
 # instance_relative_config 設定有 instance 資料夾的存在，預設路徑 ../instance
 app = Flask(__name__, instance_relative_config=True)
@@ -12,8 +13,14 @@ app.config.from_object("basic_config")
 # 路徑可用 app.instance_path 得知
 # debug 設定，不用時可註解
 app.config.from_pyfile('debug_config.py')
+# product 設定
+app.config.from_pyfile('product_config.py')
 # 產品設定，來自於環境變數所提供的路徑
 app.config.from_envvar('FLASKR_SETTINGS', silent=True)
+
+# 資料庫宣告
+# 資料庫路徑 app.config['SQLALCHEMY_DATABASE_URI']
+db = SQLAlchemy(app)
 
 # 因為 .views 中有用到 app，所以只能把 .views 往後擺
 from .views import pcf
